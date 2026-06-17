@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Andrew Thon — Photographer & Creative</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@300;400;500&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #0d1a0f;
+      --paper: #f2f7f2;
+      --sand: #d8eadb;
+      --orange: #e86c1a;
+      --orange-pale: #fdecd9;
+      --green: #1e6b3a;
+      --green-mid: #2d8f50;
+      --green-pale: #d4edda;
+      --muted: #5a7060;
+      --white: #ffffff;
+      --sidebar-w: 220px;
+      --radius: 4px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* ── TOP NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: var(--ink);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .nav-brand {
+      font-family: 'Playfair Display', serif;
+      font-weight: 800;
+      font-size: 1rem;
+      letter-spacing: -0.01em;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+    .nav-brand span { color: var(--orange); }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      flex-direction: row;
+      gap: 0.25rem;
+    }
+    .nav-links a {
+      display: block;
+      text-decoration: none;
+      color: rgba(255,255,255,0.45);
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.5rem 0.75rem;
+      border-radius: var(--radius);
+      transition: all 0.2s;
+    }
+    .nav-links a:hover {
+      color: var(--white);
+      background: rgba(255,255,255,0.06);
+    }
+    .nav-links a.active {
+      color: var(--orange);
+    }
+
+    .nav-foot { display: none; }
+
+    /* ── MAIN CONTENT ── */
+    main {
+      padding-top: 90px;
+      min-height: 100vh;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 3rem 4.5rem;
+      background: var(--ink);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, #0a1f0d 0%, #0d1a0f 60%, #1a2e10 100%);
+    }
+    .hero-bg::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: 0.4;
+    }
+    /* Orange accent line */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 3rem;
+      width: 2px; height: 40vh;
+      background: var(--orange);
+    }
+    .hero-eyebrow {
+      position: relative;
+      font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 1rem;
+    }
+    .hero-name {
+      position: relative;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 800;
+      line-height: 0.92;
+      letter-spacing: -0.03em;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+    }
+    .hero-name span { color: var(--orange); }
+    .hero-desc {
+      position: relative;
+      max-width: 460px;
+      color: #8aab90;
+      font-size: 1rem;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+    }
+    .hero-cta {
+      position: relative;
+      display: inline-flex;
+      gap: 1rem;
+      align-items: center;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.75rem;
+      border-radius: var(--radius);
+      font-size: 0.875rem; font-weight: 500;
+      letter-spacing: 0.03em;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer; border: none;
+    }
+    .btn-primary { background: var(--orange); color: var(--white); }
+    .btn-primary:hover { background: #c95c10; }
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid #2a4a30;
+      color: #8aab90;
+    }
+    .btn-ghost:hover { border-color: var(--orange); color: var(--orange); }
+
+    /* ── SECTION WRAPPERS ── */
+    section { padding: 5rem 3rem; }
+    .section-label {
+      font-size: 0.7rem; font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ── ABOUT ── */
+    .about { background: var(--white); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+      max-width: 1000px;
+    }
+    .about-body { color: #2d4a35; line-height: 1.8; }
+    .about-body p + p { margin-top: 1rem; }
+    .skills-list {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+    .skill-pill {
+      padding: 0.3rem 0.8rem;
+      background: var(--green-pale);
+      color: var(--green);
+      border-radius: 2rem;
+      font-size: 0.8rem; font-weight: 500;
+    }
+    .about-stats { display: flex; flex-direction: column; gap: 2rem; }
+    .stat-item { border-left: 2px solid var(--orange); padding-left: 1.25rem; }
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.5rem; font-weight: 800;
+      line-height: 1; color: var(--green);
+    }
+    .stat-desc { font-size: 0.875rem; color: var(--muted); margin-top: 0.25rem; }
+
+    /* ── PORTFOLIO FOLDERS ── */
+    .portfolio { background: var(--paper); }
+    .folder-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+    .folder-card {
+      background: var(--sand);
+      border: 1px solid var(--sand);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all 0.2s;
+      overflow: hidden;
+      position: relative;
+      aspect-ratio: 4/3;
+    }
+    .folder-card:hover { border-color: var(--orange); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(13,26,15,0.12); }
+    .folder-card-thumb {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+    }
+    .folder-card-placeholder {
+      width: 100%; height: 100%;
+      background: var(--green-pale);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-size: 1.5rem; font-weight: 800;
+      color: var(--green);
+    }
+    .folder-card-info {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(to top, rgba(13,26,15,0.85) 0%, transparent 100%);
+      padding: 1.25rem 1rem 0.9rem;
+    }
+    .folder-name { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; color: var(--white); }
+    .folder-count { font-size: 0.75rem; color: rgba(255,255,255,0.6); margin-top: 0.1rem; }
+
+    /* ── FOLDER VIEW ── */
+    .folder-view {
+      display: none; position: fixed; inset: 0; z-index: 150;
+      background: var(--paper); overflow-y: auto; padding: 2rem 3rem;
+    }
+    .folder-view.open { display: block; }
+    .folder-view-header {
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 2rem; padding-top: 1rem;
+    }
+    .folder-back {
+      background: none; border: 1px solid var(--sand);
+      border-radius: var(--radius); padding: 0.45rem 1rem;
+      font-size: 0.8rem; font-weight: 500; cursor: pointer;
+      color: var(--ink); transition: all 0.2s;
+    }
+    .folder-back:hover { border-color: var(--orange); color: var(--orange); }
+    .folder-view-title { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800; }
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.25rem;
+    }
+    .media-card {
+      position: relative; overflow: hidden;
+      border-radius: var(--radius); background: var(--sand);
+      aspect-ratio: 4/3; cursor: pointer; transition: transform 0.25s;
+    }
+    .media-card:hover { transform: translateY(-3px); }
+    .media-card img, .media-card video { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .media-card .overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(13,26,15,0.75) 0%, transparent 60%);
+      opacity: 0; transition: opacity 0.2s;
+      display: flex; align-items: flex-end; padding: 1rem;
+    }
+    .media-card:hover .overlay { opacity: 1; }
+    .overlay-title { color: var(--white); font-size: 0.875rem; font-weight: 500; }
+    .delete-btn {
+      position: absolute; top: 0.5rem; right: 0.5rem;
+      background: rgba(232,108,26,0.9); border: none;
+      color: white; width: 28px; height: 28px;
+      border-radius: 50%; font-size: 1rem;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.2s;
+    }
+    .media-card:hover .delete-btn { opacity: 1; }
+    .video-badge {
+      position: absolute; top: 0.5rem; left: 0.5rem;
+      background: var(--orange); color: var(--white); font-size: 0.65rem;
+      padding: 0.2rem 0.5rem; border-radius: 2px;
+      font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .empty-state {
+      grid-column: 1 / -1; text-align: center; padding: 4rem 2rem; color: var(--muted);
+    }
+    .empty-state p { font-size: 0.9rem; }
+
+    /* ── UPLOAD (admin only) ── */
+    .upload-section { background: var(--green); display: none; }
+    .upload-section.admin-visible { display: block; }
+    .upload-section .section-title { color: var(--white); }
+
+    /* ── LOGIN MODAL ── */
+    .login-modal {
+      display: none; position: fixed; inset: 0; z-index: 300;
+      background: rgba(13,26,15,0.85);
+      align-items: center; justify-content: center;
+    }
+    .login-modal.open { display: flex; }
+    .login-box {
+      background: var(--white); border-radius: var(--radius);
+      padding: 2.5rem 2rem; width: 100%; max-width: 360px;
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+    .login-box h2 { font-family: 'Syne', sans-serif; font-size: 1.25rem; font-weight: 800; color: var(--ink); }
+    .login-box p { font-size: 0.85rem; color: var(--muted); }
+    .login-box input {
+      width: 100%; padding: 0.65rem 0.9rem;
+      border: 1px solid var(--sand); border-radius: var(--radius);
+      font-size: 0.9rem; font-family: 'Inter', sans-serif; outline: none;
+    }
+    .login-box input:focus { border-color: var(--orange); }
+    .login-error { color: #c0392b; font-size: 0.8rem; display: none; }
+    .login-actions { display: flex; gap: 0.75rem; justify-content: flex-end; }
+    .nav-admin-btn {
+      background: none; border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.55); font-size: 0.7rem; font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.3rem 0.75rem; border-radius: var(--radius);
+      cursor: pointer; transition: all 0.2s; margin-top: 0.4rem;
+    }
+    .nav-admin-btn:hover { border-color: var(--orange); color: var(--orange); }
+    .nav-admin-btn.logged-in { border-color: var(--orange); color: var(--orange); }
+
+    .category-btns {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .cat-btn {
+      padding: 0.75rem 1rem;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: var(--radius);
+      color: rgba(255,255,255,0.65);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem; font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .cat-btn:hover { border-color: var(--orange); color: rgba(255,255,255,0.9); }
+    .cat-btn.active { border-color: var(--orange); color: #ffd0a0; }
+
+    .cat-note {
+      color: #ffd0a0; font-size: 0.8rem;
+      margin-bottom: 1rem; min-height: 1.2rem;
+    }
+
+    .upload-zone {
+      border: 2px dashed rgba(255,255,255,0.25);
+      border-radius: var(--radius);
+      padding: 3rem 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+    }
+    .upload-zone:hover, .upload-zone.drag-over {
+      border-color: var(--orange);
+      background: rgba(232,108,26,0.1);
+    }
+    .upload-zone input[type=file] {
+      position: absolute; inset: 0;
+      opacity: 0; cursor: pointer;
+      width: 100%; height: 100%;
+    }
+    .upload-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+    .upload-zone h3 {
+      font-family: 'Syne', sans-serif;
+      color: var(--white); font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+    .upload-zone p { color: rgba(255,255,255,0.55); font-size: 0.875rem; }
+    .upload-zone strong { color: #ffd0a0; }
+
+    .upload-progress { margin-top: 1.5rem; display: none; }
+    .progress-bar {
+      height: 3px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 2px; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; width: 0%;
+      background: var(--orange); transition: width 0.3s;
+    }
+    .upload-status {
+      color: rgba(255,255,255,0.55);
+      font-size: 0.8rem; margin-top: 0.5rem;
+      text-align: center;
+    }
+
+    /* ── CONTACT ── */
+    .contact { background: var(--white); }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+      max-width: 1000px;
+    }
+    .contact-item { display: flex; gap: 1rem; margin-bottom: 1.5rem; }
+    .contact-icon {
+      width: 40px; height: 40px; flex-shrink: 0;
+      background: var(--green-pale);
+      border-radius: var(--radius);
+      display: flex; align-items: center;
+      justify-content: center; font-size: 1.1rem;
+    }
+    .contact-label { font-size: 0.75rem; color: var(--muted); margin-bottom: 0.2rem; }
+    .contact-value { font-size: 0.95rem; font-weight: 500; color: var(--ink); }
+    .lang-grid { display: flex; flex-direction: column; gap: 0.75rem; }
+    .lang-row { display: flex; align-items: center; justify-content: space-between; }
+    .lang-name { font-size: 0.9rem; font-weight: 500; min-width: 60px; }
+    .lang-bar { flex: 1; height: 3px; background: var(--sand); margin: 0 1rem; border-radius: 2px; }
+    .lang-fill { height: 100%; background: var(--green-mid); border-radius: 2px; }
+    .lang-level { font-size: 0.75rem; color: var(--muted); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink);
+      color: rgba(255,255,255,0.2);
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.8rem;
+    }
+    footer span { color: var(--orange); }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      display: none; position: fixed; inset: 0; z-index: 200;
+      background: rgba(13,26,15,0.96);
+      align-items: center; justify-content: center;
+      padding: 2rem;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox-inner { max-width: 90vw; max-height: 90vh; position: relative; }
+    .lightbox-inner img, .lightbox-inner video {
+      max-width: 100%; max-height: 85vh;
+      border-radius: var(--radius); object-fit: contain;
+    }
+    .lightbox-close {
+      position: absolute; top: -2.5rem; right: 0;
+      background: none; border: none;
+      color: var(--white); font-size: 1.5rem; cursor: pointer;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      .nav-links a { padding: 0.35rem 0.6rem; font-size: 0.7rem; }
+      section { padding: 3.5rem 1.5rem; }
+      .hero { padding: 0 1.5rem 3rem; }
+      .hero::before { left: 1.5rem; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .category-btns { grid-template-columns: 1fr; }
+      nav { padding: 0.75rem 1rem; }
+      .nav-brand { font-size: 0.85rem; }
+      main { padding-top: 100px; }
+      .folder-view { padding: 1.5rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .media-card { transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LEFT SIDEBAR NAV -->
+<nav>
+  <div class="nav-brand">Andrew Thon <span>Riem</span><br><span style="font-family:'Inter',sans-serif;font-size:0.7rem;font-weight:400;letter-spacing:0.08em;color:rgba(255,255,255,0.45);">South Sudanese</span></div>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-admin-btn" id="adminBtn" onclick="toggleAdmin()">Admin Login</button>
+</nav>
+
+<!-- MAIN -->
+<main>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <p class="hero-eyebrow">Photographer · Graphic Designer · Creative</p>
+  <h1 class="hero-name">Andrew<br>Thon <span>Riem</span></h1>
+  <p class="hero-desc">Capturing stories through the lens and shaping ideas into visual identity — based in South Sudan, building creative work that crosses borders.</p>
+  <div class="hero-cta">
+    <a href="#portfolio" class="btn btn-primary">View Work</a>
+    <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="section-label">Who I Am</div>
+  <div class="about-grid">
+    <div>
+      <h2 class="section-title">Creativity meets<br>purpose</h2>
+      <div class="about-body">
+        <p>I'm Andrew Thon Riem Alier — a South Sudanese photographer and graphic designer with 2+ years of professional experience at Makuen-Atong nyin wong media, where I developed a visual language rooted in authenticity and storytelling.</p>
+        <p>Beyond the camera, I'm a dedicated basketball player, an avid reader, and someone who believes that every image should communicate something real. I'm currently expanding my skills in programming to bring creative and technical thinking together.</p>
+        <div class="skills-list">
+          <span class="skill-pill">Photography</span>
+          <span class="skill-pill">Graphic Design</span>
+          <span class="skill-pill">Visual Storytelling</span>
+          <span class="skill-pill">Programming</span>
+          <span class="skill-pill">Media Production</span>
+        </div>
+      </div>
+    </div>
+    <div class="about-stats">
+      <div class="stat-item">
+        <div class="stat-num">2+</div>
+        <div class="stat-desc">Years of professional photography &amp; design experience</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">3</div>
+        <div class="stat-desc">Languages spoken — English, Dinka, Arabic</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">∞</div>
+        <div class="stat-desc">Stories left to tell through creative work</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section class="portfolio" id="portfolio">
+  <div class="section-label">My Work</div>
+  <h2 class="section-title">Portfolio</h2>
+  <div class="folder-grid">
+    <div class="folder-card" id="card-design" onclick="openFolder('design')">
+      <div class="folder-card-placeholder" id="thumb-design">GD</div>
+      <div class="folder-card-info">
+        <div class="folder-name">Graphic Design</div>
+        <div class="folder-count" id="count-design">0 items</div>
+      </div>
+    </div>
+    <div class="folder-card" id="card-photo" onclick="openFolder('photo')">
+      <div class="folder-card-placeholder" id="thumb-photo">PH</div>
+      <div class="folder-card-info">
+        <div class="folder-name">Photography</div>
+        <div class="folder-count" id="count-photo">0 items</div>
+      </div>
+    </div>
+    <div class="folder-card" id="card-video" onclick="openFolder('video')">
+      <div class="folder-card-placeholder" id="thumb-video">VD</div>
+      <div class="folder-card-info">
+        <div class="folder-name">Videos</div>
+        <div class="folder-count" id="count-video">0 items</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOLDER VIEW -->
+<div class="folder-view" id="folderView">
+  <div class="folder-view-header">
+    <button class="folder-back" onclick="closeFolder()">&#8592; Back</button>
+    <h2 class="folder-view-title" id="folderViewTitle"></h2>
+  </div>
+  <div class="media-grid" id="folderGrid"></div>
+</div>
+
+<!-- UPLOAD (admin only) -->
+<section class="upload-section" id="upload">
+  <div class="section-label" style="color:rgba(255,255,255,0.45);">Add to Portfolio</div>
+  <h2 class="section-title">Upload Your Work</h2>
+  <p style="color:rgba(255,255,255,0.55); margin-bottom:2rem; max-width:520px;">Add graphic designs, photographs, or videos directly to your portfolio.</p>
+  <div class="category-btns">
+    <button class="cat-btn" onclick="setCategory('design',this)">Graphic Design</button>
+    <button class="cat-btn" onclick="setCategory('photo',this)">Photography</button>
+    <button class="cat-btn" onclick="setCategory('video',this)">Video</button>
+  </div>
+  <div class="cat-note" id="catNote"></div>
+  <div class="upload-zone" id="dropZone">
+    <input type="file" id="fileInput" multiple accept="image/*,video/*">
+    <div class="upload-icon">&#8679;</div>
+    <h3>Drop files here or click to browse</h3>
+    <p>Supports <strong>images</strong> (JPG, PNG, GIF, WebP) and <strong>videos</strong> (MP4, MOV, WebM).<br>Select a category above first.</p>
+  </div>
+  <div class="upload-progress" id="uploadProgress">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <p class="upload-status" id="uploadStatus">Uploading...</p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="section-label">Get in Touch</div>
+  <div class="contact-grid">
+    <div>
+      <h2 class="section-title">Let's create<br>something together</h2>
+      <div class="contact-item">
+        <div class="contact-icon">Tel</div>
+        <div>
+          <div class="contact-label">Phone / WhatsApp</div>
+          <div class="contact-value">+250 795 591 397</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">@</div>
+        <div>
+          <div class="contact-label">Email</div>
+          <div class="contact-value">thoncisse@gmail.com</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">Loc</div>
+        <div>
+          <div class="contact-label">Nationality</div>
+          <div class="contact-value">South Sudanese</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h3 style="font-family:'Syne',sans-serif;font-weight:700;margin-bottom:1.5rem;">Languages</h3>
+      <div class="lang-grid">
+        <div class="lang-row">
+          <span class="lang-name">English</span>
+          <div class="lang-bar"><div class="lang-fill" style="width:95%"></div></div>
+          <span class="lang-level">Brilliant</span>
+        </div>
+        <div class="lang-row">
+          <span class="lang-name">Dinka</span>
+          <div class="lang-bar"><div class="lang-fill" style="width:100%"></div></div>
+          <span class="lang-level">Excellent</span>
+        </div>
+        <div class="lang-row">
+          <span class="lang-name">Arabic</span>
+          <div class="lang-bar"><div class="lang-fill" style="width:85%"></div></div>
+          <span class="lang-level">Excellent</span>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2024 <span>Andrew Thon Riem Alier</span> · Photographer &amp; Graphic Designer</p>
+  <p style="margin-top:0.5rem;">+250 795 591 397 · <a href="mailto:thoncisse@gmail.com" style="color:var(--orange);text-decoration:none;">thoncisse@gmail.com</a></p>
+</footer>
+
+</main><!-- end main -->
+
+<!-- LOGIN MODAL -->
+<div class="login-modal" id="loginModal">
+  <div class="login-box">
+    <h2>Admin Login</h2>
+    <p>Enter your password to access the upload panel.</p>
+    <input type="password" id="adminPassword" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()">
+    <div class="login-error" id="loginError">Incorrect password. Try again.</div>
+    <div class="login-actions">
+      <button class="btn" style="background:var(--sand);color:var(--ink);" onclick="closeLoginModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="doLogin()">Login</button>
+    </div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <div class="lightbox-inner" onclick="event.stopPropagation()">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <div id="lightboxContent"></div>
+  </div>
+</div>
+
+<script>
+  // ── STATE ──
+  let items = [];
+  try { items = JSON.parse(localStorage.getItem('portfolio_items') || '[]'); } catch(e) {}
+  let selectedCategory = null;
+  let isAdmin = false;
+  const ADMIN_PASS = 'andrew2024';
+
+  // ── ADMIN AUTH ──
+  function toggleAdmin() {
+    if (isAdmin) { logout(); return; }
+    document.getElementById('loginModal').classList.add('open');
+    setTimeout(() => document.getElementById('adminPassword').focus(), 100);
+  }
+  function closeLoginModal() {
+    document.getElementById('loginModal').classList.remove('open');
+    document.getElementById('adminPassword').value = '';
+    document.getElementById('loginError').style.display = 'none';
+  }
+  function doLogin() {
+    const val = document.getElementById('adminPassword').value;
+    if (val === ADMIN_PASS) {
+      isAdmin = true;
+      closeLoginModal();
+      document.getElementById('upload').classList.add('admin-visible');
+      const btn = document.getElementById('adminBtn');
+      btn.textContent = 'Logout';
+      btn.classList.add('logged-in');
+      renderFolderCounts();
+    } else {
+      document.getElementById('loginError').style.display = 'block';
+    }
+  }
+  function logout() {
+    isAdmin = false;
+    document.getElementById('upload').classList.remove('admin-visible');
+    const btn = document.getElementById('adminBtn');
+    btn.textContent = 'Admin Login';
+    btn.classList.remove('logged-in');
+    renderFolderCounts();
+  }
+
+  // ── FOLDER COUNTS + COVERS ──
+  const PLACEHOLDERS = { design: 'GD', photo: 'PH', video: 'VD' };
+  function renderFolderCounts() {
+    ['design','photo','video'].forEach(cat => {
+      const catItems = items.filter(i => i.category === cat);
+      const n = catItems.length;
+      document.getElementById('count-' + cat).textContent = n + ' item' + (n !== 1 ? 's' : '');
+      const thumbEl = document.getElementById('thumb-' + cat);
+      const first = catItems.find(i => i.type === 'image') || catItems[0];
+      if (first && first.type === 'image') {
+        thumbEl.outerHTML = `<img class="folder-card-thumb" id="thumb-${cat}" src="${first.src}" alt="${cat} cover">`;
+      } else if (first && first.type === 'video') {
+        thumbEl.outerHTML = `<video class="folder-card-thumb" id="thumb-${cat}" src="${first.src}" muted preload="metadata"></video>`;
+      } else {
+        thumbEl.outerHTML = `<div class="folder-card-placeholder" id="thumb-${cat}">${PLACEHOLDERS[cat]}</div>`;
+      }
+    });
+  }
+
+  // ── FOLDER VIEW ──
+  const FOLDER_LABELS = { design: 'Graphic Design', photo: 'Photography', video: 'Videos' };
+  let currentFolder = null;
+  function openFolder(cat) {
+    currentFolder = cat;
+    document.getElementById('folderViewTitle').textContent = FOLDER_LABELS[cat];
+    renderFolderGrid();
+    document.getElementById('folderView').classList.add('open');
+    window.scrollTo(0, 0);
+  }
+  function closeFolder() {
+    document.getElementById('folderView').classList.remove('open');
+    currentFolder = null;
+  }
+  function renderFolderGrid() {
+    const grid = document.getElementById('folderGrid');
+    const filtered = items.filter(i => i.category === currentFolder);
+    if (filtered.length === 0) {
+      grid.innerHTML = '<div class="empty-state"><p>No items in this folder yet.</p></div>';
+      return;
+    }
+    grid.innerHTML = filtered.map(item => {
+      const isVideo = item.type === 'video';
+      const delBtn = isAdmin ? `<button class="delete-btn" onclick="deleteItem('${item.id}',event)" title="Remove">✕</button>` : '';
+      return `<div class="media-card" data-id="${item.id}">
+        ${isVideo
+          ? `<video src="${item.src}" muted preload="metadata"></video><span class="video-badge">Video</span>`
+          : `<img src="${item.src}" alt="${item.name}" loading="lazy">`}
+        <div class="overlay"><span class="overlay-title">${item.name}</span></div>
+        ${delBtn}
+      </div>`;
+    }).join('');
+    grid.querySelectorAll('.media-card').forEach(card => {
+      card.addEventListener('click', () => openLightbox(card.dataset.id));
+    });
+  }
+
+  // ── CATEGORY SELECT ──
+  function setCategory(cat, btn) {
+    selectedCategory = cat;
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const labels = { design: 'Graphic Design', photo: 'Photography', video: 'Video' };
+    document.getElementById('catNote').textContent = 'Category set: ' + labels[cat];
+  }
+
+  // ── UPLOAD ──
+  const dropZone = document.getElementById('dropZone');
+  const fileInput = document.getElementById('fileInput');
+  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+  dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('drag-over'); handleFiles(e.dataTransfer.files); });
+  fileInput.addEventListener('change', e => handleFiles(e.target.files));
+
+  function handleFiles(fileList) {
+    if (!selectedCategory) { alert('Please select a category first.'); return; }
+    const files = Array.from(fileList);
+    if (!files.length) return;
+    const progress = document.getElementById('uploadProgress');
+    const fill = document.getElementById('progressFill');
+    const status = document.getElementById('uploadStatus');
+    progress.style.display = 'block';
+    let done = 0;
+    files.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const isVideo = file.type.startsWith('video/');
+        items.push({
+          id: Date.now() + Math.random().toString(36).slice(2),
+          name: file.name.replace(/\.[^.]+$/, ''),
+          src: e.target.result,
+          type: isVideo ? 'video' : 'image',
+          category: selectedCategory
+        });
+        done++;
+        fill.style.width = (done / files.length * 100) + '%';
+        status.textContent = `Uploaded ${done} of ${files.length} file${files.length > 1 ? 's' : ''}`;
+        if (done === files.length) {
+          saveItems(); renderFolderCounts();
+          setTimeout(() => { progress.style.display = 'none'; fill.style.width = '0%'; }, 2000);
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+    fileInput.value = '';
+  }
+
+  function saveItems() {
+    try { localStorage.setItem('portfolio_items', JSON.stringify(items)); }
+    catch(e) { items = items.slice(-25); try { localStorage.setItem('portfolio_items', JSON.stringify(items)); } catch(e2) {} }
+  }
+
+  // ── DELETE ──
+  function deleteItem(id, e) {
+    e.stopPropagation();
+    if (!confirm('Remove this item?')) return;
+    items = items.filter(i => i.id !== id);
+    saveItems(); renderFolderCounts(); renderFolderGrid();
+  }
+
+  // ── LIGHTBOX ──
+  function openLightbox(id) {
+    const item = items.find(i => i.id === id);
+    if (!item) return;
+    const content = document.getElementById('lightboxContent');
+    content.innerHTML = item.type === 'video'
+      ? `<video src="${item.src}" controls autoplay style="max-width:85vw;max-height:80vh;border-radius:4px;"></video>`
+      : `<img src="${item.src}" alt="${item.name}" style="max-width:85vw;max-height:80vh;border-radius:4px;">`;
+    document.getElementById('lightbox').classList.add('open');
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.getElementById('lightboxContent').innerHTML = '';
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { closeLightbox(); closeFolder(); }
+  });
+
+  // ── INIT ──
+  renderFolderCounts();
+</script>
+</body>
+</html>
