@@ -107,11 +107,26 @@ main {
   position: absolute; inset: 0;
   background: linear-gradient(135deg, #0a1f0d 0%, #0d1a0f 60%, #1a2e10 100%);
 }
+/* Geometric blended pattern */
+.hero-bg::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(ellipse 80% 60% at 70% 20%, rgba(46,143,80,0.35) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 20% 80%, rgba(30,107,58,0.4) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 40% at 85% 75%, rgba(232,108,26,0.12) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 10% 15%, rgba(26,46,16,0.6) 0%, transparent 60%);
+  z-index: 0;
+}
+/* Diagonal lines pattern */
 .hero-bg::after {
   content: '';
   position: absolute; inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-  opacity: 0.4;
+  background-image:
+    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg stroke='%232d8f50' stroke-width='0.4' opacity='0.3'%3E%3Cpath d='M0 60L60 0M-10 10L10 -10M50 70L70 50'/%3E%3C/g%3E%3Ccircle cx='30' cy='30' r='1' fill='%23e86c1a' fill-opacity='0.15'/%3E%3Ccircle cx='0' cy='0' r='1' fill='%232d8f50' fill-opacity='0.2'/%3E%3Ccircle cx='60' cy='60' r='1' fill='%232d8f50' fill-opacity='0.2'/%3E%3C/g%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  opacity: 0.9;
+  z-index: 0;
 }
 .hero::before {
   content: '';
@@ -121,7 +136,7 @@ main {
   background: var(--orange);
 }
 .hero-eyebrow {
-  position: relative;
+  position: relative; z-index: 1;
   font-size: 0.72rem; font-weight: 500;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -129,7 +144,7 @@ main {
   margin-bottom: 1rem;
 }
 .hero-name {
-  position: relative;
+  position: relative; z-index: 1;
   font-family: 'Playfair Display', serif;
   font-size: clamp(3rem, 8vw, 7rem);
   font-weight: 800;
@@ -140,7 +155,7 @@ main {
 }
 .hero-name span { color: var(--orange); }
 .hero-desc {
-  position: relative;
+  position: relative; z-index: 1;
   max-width: 460px;
   color: #8aab90;
   font-size: 1rem;
@@ -148,7 +163,7 @@ main {
   margin-bottom: 2.5rem;
 }
 .hero-cta {
-  position: relative;
+  position: relative; z-index: 1;
   display: inline-flex;
   gap: 1rem;
   align-items: center;
