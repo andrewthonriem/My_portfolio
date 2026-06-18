@@ -10,15 +10,21 @@
 </head>
 <body>
 
+<div class="nav-overlay" id="navOverlay" onclick="closeNav()"></div>
 <nav>
   <div class="nav-brand">Andrew Thon <span>Riem</span><br><span style="font-family:'Inter',sans-serif;font-size:0.7rem;font-weight:400;letter-spacing:0.08em;color:rgba(255,255,255,0.45);">South Sudanese</span></div>
-  <ul class="nav-links">
-    <li><a href="#home"><i class="fa-solid fa-house"></i> Home</a></li>
-    <li><a href="#about"><i class="fa-solid fa-user"></i> About</a></li>
-    <li><a href="#portfolio"><i class="fa-solid fa-images"></i> Portfolio</a></li>
-    <li><a href="#contact"><i class="fa-solid fa-envelope"></i> Contact</a></li>
+  <div style="display:flex;align-items:center;gap:0.75rem;">
+    <button class="nav-admin-btn" id="adminBtn" onclick="toggleAdmin()">Admin Login</button>
+    <button class="nav-toggle" id="navToggle" onclick="toggleNav()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#home" onclick="closeNav()"><i class="fa-solid fa-house"></i> Home</a></li>
+    <li><a href="#about" onclick="closeNav()"><i class="fa-solid fa-user"></i> About</a></li>
+    <li><a href="#portfolio" onclick="closeNav()"><i class="fa-solid fa-images"></i> Portfolio</a></li>
+    <li><a href="#contact" onclick="closeNav()"><i class="fa-solid fa-envelope"></i> Contact</a></li>
   </ul>
-  <button class="nav-admin-btn" id="adminBtn" onclick="toggleAdmin()">Admin Login</button>
 </nav>
 
 <main>

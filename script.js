@@ -1,5 +1,20 @@
 const API = '';  // same origin — empty means relative URLs
 
+// ── NAV TOGGLE ──
+function toggleNav() {
+  const links   = document.getElementById('navLinks');
+  const toggle  = document.getElementById('navToggle');
+  const overlay = document.getElementById('navOverlay');
+  links.classList.toggle('open');
+  toggle.classList.toggle('open');
+  overlay.classList.toggle('open');
+}
+function closeNav() {
+  document.getElementById('navLinks').classList.remove('open');
+  document.getElementById('navToggle').classList.remove('open');
+  document.getElementById('navOverlay').classList.remove('open');
+}
+
 // ── STATE ──
 let items = [];
 let selectedCategory = null;
