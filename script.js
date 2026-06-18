@@ -1,13 +1,21 @@
-const API = '';  // same origin — empty means relative URLs
+const API = '';  // relative — works both locally and on Render
+
+// ── detect if backend is available ──
+let backendAvailable = false;
+async function checkBackend() {
+  try {
+    const res = await fetch(API + '/api/health');
+    backendAvailable = res.ok;
+  } catch(e) {
+    backendAvailable = false;
+  }
+}
 
 // ── NAV TOGGLE ──
 function toggleNav() {
-  const links   = document.getElementById('navLinks');
-  const toggle  = document.getElementById('navToggle');
-  const overlay = document.getElementById('navOverlay');
-  links.classList.toggle('open');
-  toggle.classList.toggle('open');
-  overlay.classList.toggle('open');
+  document.getElementById('navLinks').classList.toggle('open');
+  document.getElementById('navToggle').classList.toggle('open');
+  document.getElementById('navOverlay').classList.toggle('open');
 }
 function closeNav() {
   document.getElementById('navLinks').classList.remove('open');
@@ -21,31 +29,33 @@ let selectedCategory = null;
 let isAdmin = false;
 const ADMIN_PASS = 'andrew2024';
 
-// ── LOAD ITEMS FROM SERVER ──
+// ── LOAD ITEMS ──
 async function loadItems() {
+  if (!backendAvailable) { renderFolderCounts(); return; }
   try {
     const res = await fetch(API + '/api/items');
     items = await res.json();
-  } catch(e) {
-    console.error('Could not load items', e);
-    items = [];
-  }
+  } catch(e) { items = []; }
   renderFolderCounts();
 }
 
-// ── PROFILE PHOTO ──
+// ── LOAD PROFILE ──
 async function loadProfile() {
+  if (!backendAvailable) return;
   try {
-    const res = await fetch(API + '/api/profile');
+    const res  = await fetch(API + '/api/profile');
     const data = await res.json();
     if (data.src) setProfileAvatar(data.src);
   } catch(e) {}
 }
+
 function setProfileAvatar(src) {
-  document.getElementById('profileAvatar').innerHTML = `<img src="${src}" alt="Profile">`;
+  document.getElementById('profileAvatar').innerHTML =
+    `<img src="${src}" alt="Profile Photo">`;
 }
+
 document.getElementById('profileInput').addEventListener('change', async function() {
-  if (!this.files[0]) return;
+  if (!this.files[0] || !backendAvailable) return;
   const formData = new FormData();
   formData.append('file', this.files[0]);
   try {
@@ -78,6 +88,7 @@ function doLogin() {
     btn.textContent = 'Logout';
     btn.classList.add('logged-in');
     renderFolderCounts();
+    if (currentFolder) renderFolderGrid();
   } else {
     document.getElementById('loginError').style.display = 'block';
   }
@@ -90,6 +101,7 @@ function logout() {
   btn.textContent = 'Admin Login';
   btn.classList.remove('logged-in');
   renderFolderCounts();
+  if (currentFolder) renderFolderGrid();
 }
 
 // ── FOLDER COUNTS + COVERS ──
@@ -100,6 +112,7 @@ function renderFolderCounts() {
     const n = catItems.length;
     document.getElementById('count-' + cat).textContent = n + ' item' + (n !== 1 ? 's' : '');
     const thumbEl = document.getElementById('thumb-' + cat);
+    if (!thumbEl) return;
     const first = catItems.find(i => i.type === 'image') || catItems[0];
     if (first && first.type === 'image') {
       thumbEl.outerHTML = `<img class="folder-card-thumb" id="thumb-${cat}" src="${first.src}" alt="${cat} cover">`;
@@ -134,7 +147,7 @@ function renderFolderGrid() {
   }
   grid.innerHTML = filtered.map(item => {
     const isVideo = item.type === 'video';
-    const delBtn = isAdmin
+    const delBtn  = isAdmin
       ? `<button class="delete-btn" onclick="deleteItem('${item.id}',event)" title="Remove">✕</button>`
       : '';
     return `<div class="media-card" data-id="${item.id}">
@@ -160,15 +173,19 @@ function setCategory(cat, btn) {
 }
 
 // ── UPLOAD ──
-const dropZone = document.getElementById('dropZone');
+const dropZone  = document.getElementById('dropZone');
 const fileInput = document.getElementById('fileInput');
-dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+dropZone.addEventListener('dragover',  e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
 dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
-dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('drag-over'); handleFiles(e.dataTransfer.files); });
+dropZone.addEventListener('drop', e => {
+  e.preventDefault(); dropZone.classList.remove('drag-over');
+  handleFiles(e.dataTransfer.files);
+});
 fileInput.addEventListener('change', e => handleFiles(e.target.files));
 
 async function handleFiles(fileList) {
-  if (!selectedCategory) { alert('Please select a category first.'); return; }
+  if (!backendAvailable) { alert('Backend not connected. Please deploy the server to upload files.'); return; }
+  if (!selectedCategory)  { alert('Please select a category first.'); return; }
   const files = Array.from(fileList);
   if (!files.length) return;
   const progress = document.getElementById('uploadProgress');
@@ -184,10 +201,8 @@ async function handleFiles(fileList) {
     try {
       const res  = await fetch(API + '/api/upload', { method: 'POST', body: formData });
       const item = await res.json();
-      items.push(item);
-    } catch(e) {
-      console.error('Upload failed', e);
-    }
+      if (item.id) items.push(item);
+    } catch(e) { console.error('Upload failed', e); }
     done++;
     fill.style.width = (done / files.length * 100) + '%';
     status.textContent = `Uploaded ${done} of ${files.length} file${files.length > 1 ? 's' : ''}`;
@@ -207,9 +222,7 @@ async function deleteItem(id, e) {
     items = items.filter(i => i.id !== id);
     renderFolderCounts();
     renderFolderGrid();
-  } catch(e) {
-    console.error('Delete failed', e);
-  }
+  } catch(e) { console.error('Delete failed', e); }
 }
 
 // ── LIGHTBOX ──
@@ -231,5 +244,7 @@ document.addEventListener('keydown', e => {
 });
 
 // ── INIT ──
-loadProfile();
-loadItems();
+(async () => {
+  await checkBackend();
+  await Promise.all([loadProfile(), loadItems()]);
+})();
