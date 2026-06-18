@@ -33,6 +33,29 @@ async function loadItems() {
   renderFolderCounts();
 }
 
+// ── PROFILE PHOTO ──
+async function loadProfile() {
+  try {
+    const res = await fetch(API + '/api/profile');
+    const data = await res.json();
+    if (data.src) setProfileAvatar(data.src);
+  } catch(e) {}
+}
+function setProfileAvatar(src) {
+  document.getElementById('profileAvatar').innerHTML = `<img src="${src}" alt="Profile">`;
+}
+document.getElementById('profileInput').addEventListener('change', async function() {
+  if (!this.files[0]) return;
+  const formData = new FormData();
+  formData.append('file', this.files[0]);
+  try {
+    const res  = await fetch(API + '/api/profile', { method: 'POST', body: formData });
+    const data = await res.json();
+    if (data.src) setProfileAvatar(data.src);
+  } catch(e) { console.error('Profile upload failed', e); }
+  this.value = '';
+});
+
 // ── ADMIN AUTH ──
 function toggleAdmin() {
   if (isAdmin) { logout(); return; }
@@ -50,6 +73,7 @@ function doLogin() {
     isAdmin = true;
     closeLoginModal();
     document.getElementById('upload').classList.add('admin-visible');
+    document.getElementById('profileChangeBtn').classList.add('admin-visible');
     const btn = document.getElementById('adminBtn');
     btn.textContent = 'Logout';
     btn.classList.add('logged-in');
@@ -61,6 +85,7 @@ function doLogin() {
 function logout() {
   isAdmin = false;
   document.getElementById('upload').classList.remove('admin-visible');
+  document.getElementById('profileChangeBtn').classList.remove('admin-visible');
   const btn = document.getElementById('adminBtn');
   btn.textContent = 'Admin Login';
   btn.classList.remove('logged-in');
@@ -206,4 +231,5 @@ document.addEventListener('keydown', e => {
 });
 
 // ── INIT ──
+loadProfile();
 loadItems();

@@ -79,4 +79,25 @@ app.delete('/api/items/:id', (req, res) => {
   res.json({ ok: true });
 });
 
+// GET profile photo
+app.get('/api/profile', (req, res) => {
+  const profilePath = path.join(BASE, 'data', 'profile.json');
+  try { res.json(JSON.parse(fs.readFileSync(profilePath))); }
+  catch(e) { res.json({ src: null }); }
+});
+
+// POST profile photo
+app.post('/api/profile', upload.single('file'), (req, res) => {
+  if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+  const profilePath = path.join(BASE, 'data', 'profile.json');
+  try {
+    const old = JSON.parse(fs.readFileSync(profilePath));
+    const oldFile = path.join(UPLOADS, path.basename(old.src));
+    if (fs.existsSync(oldFile)) fs.unlinkSync(oldFile);
+  } catch(e) {}
+  const src = '/uploads/' + req.file.filename;
+  fs.writeFileSync(profilePath, JSON.stringify({ src }));
+  res.json({ src });
+});
+
 app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
