@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: andrew-portfolio
+    runtime: node
+    buildCommand: npm install
+    startCommand: node server.js
+    disk:
+      name: portfolio-storage
+      mountPath: /opt/render/project/src
+      sizeGB: 1
