@@ -1,9 +1,22 @@
+const API = '';  // same origin — empty means relative URLs
+
 // ── STATE ──
 let items = [];
-try { items = JSON.parse(localStorage.getItem('portfolio_items') || '[]'); } catch(e) {}
 let selectedCategory = null;
 let isAdmin = false;
 const ADMIN_PASS = 'andrew2024';
+
+// ── LOAD ITEMS FROM SERVER ──
+async function loadItems() {
+  try {
+    const res = await fetch(API + '/api/items');
+    items = await res.json();
+  } catch(e) {
+    console.error('Could not load items', e);
+    items = [];
+  }
+  renderFolderCounts();
+}
 
 // ── ADMIN AUTH ──
 function toggleAdmin() {
@@ -81,7 +94,9 @@ function renderFolderGrid() {
   }
   grid.innerHTML = filtered.map(item => {
     const isVideo = item.type === 'video';
-    const delBtn = isAdmin ? `<button class="delete-btn" onclick="deleteItem('${item.id}',event)" title="Remove">✕</button>` : '';
+    const delBtn = isAdmin
+      ? `<button class="delete-btn" onclick="deleteItem('${item.id}',event)" title="Remove">✕</button>`
+      : '';
     return `<div class="media-card" data-id="${item.id}">
       ${isVideo
         ? `<video src="${item.src}" muted preload="metadata"></video><span class="video-badge">Video</span>`
@@ -112,50 +127,49 @@ dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-ove
 dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('drag-over'); handleFiles(e.dataTransfer.files); });
 fileInput.addEventListener('change', e => handleFiles(e.target.files));
 
-function handleFiles(fileList) {
+async function handleFiles(fileList) {
   if (!selectedCategory) { alert('Please select a category first.'); return; }
   const files = Array.from(fileList);
   if (!files.length) return;
   const progress = document.getElementById('uploadProgress');
-  const fill = document.getElementById('progressFill');
-  const status = document.getElementById('uploadStatus');
+  const fill     = document.getElementById('progressFill');
+  const status   = document.getElementById('uploadStatus');
   progress.style.display = 'block';
   let done = 0;
-  files.forEach(file => {
-    const reader = new FileReader();
-    reader.onload = e => {
-      const isVideo = file.type.startsWith('video/');
-      items.push({
-        id: Date.now() + Math.random().toString(36).slice(2),
-        name: file.name.replace(/\.[^.]+$/, ''),
-        src: e.target.result,
-        type: isVideo ? 'video' : 'image',
-        category: selectedCategory
-      });
-      done++;
-      fill.style.width = (done / files.length * 100) + '%';
-      status.textContent = `Uploaded ${done} of ${files.length} file${files.length > 1 ? 's' : ''}`;
-      if (done === files.length) {
-        saveItems(); renderFolderCounts();
-        setTimeout(() => { progress.style.display = 'none'; fill.style.width = '0%'; }, 2000);
-      }
-    };
-    reader.readAsDataURL(file);
-  });
+  for (const file of files) {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('category', selectedCategory);
+    formData.append('name', file.name.replace(/\.[^.]+$/, ''));
+    try {
+      const res  = await fetch(API + '/api/upload', { method: 'POST', body: formData });
+      const item = await res.json();
+      items.push(item);
+    } catch(e) {
+      console.error('Upload failed', e);
+    }
+    done++;
+    fill.style.width = (done / files.length * 100) + '%';
+    status.textContent = `Uploaded ${done} of ${files.length} file${files.length > 1 ? 's' : ''}`;
+  }
+  renderFolderCounts();
+  if (currentFolder === selectedCategory) renderFolderGrid();
+  setTimeout(() => { progress.style.display = 'none'; fill.style.width = '0%'; }, 2000);
   fileInput.value = '';
 }
 
-function saveItems() {
-  try { localStorage.setItem('portfolio_items', JSON.stringify(items)); }
-  catch(e) { items = items.slice(-25); try { localStorage.setItem('portfolio_items', JSON.stringify(items)); } catch(e2) {} }
-}
-
 // ── DELETE ──
-function deleteItem(id, e) {
+async function deleteItem(id, e) {
   e.stopPropagation();
   if (!confirm('Remove this item?')) return;
-  items = items.filter(i => i.id !== id);
-  saveItems(); renderFolderCounts(); renderFolderGrid();
+  try {
+    await fetch(API + '/api/items/' + id, { method: 'DELETE' });
+    items = items.filter(i => i.id !== id);
+    renderFolderCounts();
+    renderFolderGrid();
+  } catch(e) {
+    console.error('Delete failed', e);
+  }
 }
 
 // ── LIGHTBOX ──
@@ -177,4 +191,4 @@ document.addEventListener('keydown', e => {
 });
 
 // ── INIT ──
-renderFolderCounts();
+loadItems();
