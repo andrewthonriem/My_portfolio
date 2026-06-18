@@ -6,16 +6,17 @@
   <title>Andrew Thon — Photographer & Creative</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@300;400;500&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
 
 <nav>
   <div class="nav-brand">Andrew Thon <span>Riem</span><br><span style="font-family:'Inter',sans-serif;font-size:0.7rem;font-weight:400;letter-spacing:0.08em;color:rgba(255,255,255,0.45);">South Sudanese</span></div>
   <ul class="nav-links">
-    <li><a href="#home">Home</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#portfolio">Portfolio</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#home"><i class="fa-solid fa-house"></i> Home</a></li>
+    <li><a href="#about"><i class="fa-solid fa-user"></i> About</a></li>
+    <li><a href="#portfolio"><i class="fa-solid fa-images"></i> Portfolio</a></li>
+    <li><a href="#contact"><i class="fa-solid fa-envelope"></i> Contact</a></li>
   </ul>
   <button class="nav-admin-btn" id="adminBtn" onclick="toggleAdmin()">Admin Login</button>
 </nav>
@@ -137,21 +138,28 @@
     <div>
       <h2 class="section-title">Let's create<br>something together</h2>
       <div class="contact-item">
-        <div class="contact-icon">Tel</div>
+        <div class="contact-icon"><i class="fa-solid fa-phone"></i></div>
         <div>
-          <div class="contact-label">Phone / WhatsApp</div>
+          <div class="contact-label">Phone</div>
           <div class="contact-value">+250 795 591 397</div>
         </div>
       </div>
       <div class="contact-item">
-        <div class="contact-icon">@</div>
+        <div class="contact-icon"><i class="fa-brands fa-whatsapp"></i></div>
         <div>
-          <div class="contact-label">Email</div>
-          <div class="contact-value">thoncisse@gmail.com</div>
+          <div class="contact-label">WhatsApp</div>
+          <div class="contact-value"><a href="https://wa.me/250795591397" style="color:var(--ink);text-decoration:none;">+250 795 591 397</a></div>
         </div>
       </div>
       <div class="contact-item">
-        <div class="contact-icon">Loc</div>
+        <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
+        <div>
+          <div class="contact-label">Email</div>
+          <div class="contact-value"><a href="mailto:thoncisse@gmail.com" style="color:var(--ink);text-decoration:none;">thoncisse@gmail.com</a></div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon"><i class="fa-solid fa-earth-africa"></i></div>
         <div>
           <div class="contact-label">Nationality</div>
           <div class="contact-value">South Sudanese</div>
@@ -184,7 +192,6 @@
 <!-- FOOTER -->
 <footer>
   <p>© 2024 <span>Andrew Thon Riem Alier</span> · Photographer &amp; Graphic Designer</p>
-  <p style="margin-top:0.5rem;">+250 795 591 397 · <a href="mailto:thoncisse@gmail.com" style="color:var(--orange);text-decoration:none;">thoncisse@gmail.com</a></p>
 </footer>
 
 </main>

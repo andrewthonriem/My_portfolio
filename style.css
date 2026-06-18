@@ -403,7 +403,8 @@ section { padding: 5rem 3rem; }
 .contact-icon {
   width: 40px; height: 40px; flex-shrink: 0;
   background: var(--green-pale); border-radius: var(--radius);
-  display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; color: var(--green);
 }
 .contact-label { font-size: 0.75rem; color: var(--muted); margin-bottom: 0.2rem; }
 .contact-value { font-size: 0.95rem; font-weight: 500; color: var(--ink); }
