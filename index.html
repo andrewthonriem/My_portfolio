@@ -14,7 +14,6 @@
 <nav>
   <div class="nav-brand">Andrew Thon <span>Riem</span><br><span style="font-family:'Inter',sans-serif;font-size:0.7rem;font-weight:400;letter-spacing:0.08em;color:rgba(255,255,255,0.45);">South Sudanese</span></div>
   <div style="display:flex;align-items:center;gap:0.75rem;">
-    <button class="nav-admin-btn" id="adminBtn" onclick="toggleAdmin()">Admin Login</button>
     <button class="nav-toggle" id="navToggle" onclick="toggleNav()" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
@@ -92,25 +91,25 @@
   <div class="section-label">My Work</div>
   <h2 class="section-title">Portfolio</h2>
   <div class="folder-grid">
-    <div class="folder-card" id="card-design" onclick="openFolder('design')">
-      <div class="folder-card-placeholder" id="thumb-design">GD</div>
+    <div class="folder-card" onclick="openFolder('design')">
+      <img class="folder-card-thumb" src="images/ACTIVE-ON ALL.jpg" alt="Graphic Design cover">
       <div class="folder-card-info">
         <div class="folder-name">Graphic Design</div>
-        <div class="folder-count" id="count-design">0 items</div>
+        <div class="folder-count">10 items</div>
       </div>
     </div>
-    <div class="folder-card" id="card-photo" onclick="openFolder('photo')">
-      <div class="folder-card-placeholder" id="thumb-photo">PH</div>
+    <div class="folder-card" onclick="openFolder('photo')">
+      <div class="folder-card-placeholder">PH</div>
       <div class="folder-card-info">
         <div class="folder-name">Photography</div>
-        <div class="folder-count" id="count-photo">0 items</div>
+        <div class="folder-count">0 items</div>
       </div>
     </div>
-    <div class="folder-card" id="card-video" onclick="openFolder('video')">
-      <div class="folder-card-placeholder" id="thumb-video">VD</div>
+    <div class="folder-card" onclick="openFolder('video')">
+      <div class="folder-card-placeholder">VD</div>
       <div class="folder-card-info">
         <div class="folder-name">Videos</div>
-        <div class="folder-count" id="count-video">0 items</div>
+        <div class="folder-count">0 items</div>
       </div>
     </div>
   </div>
@@ -125,28 +124,6 @@
   <div class="media-grid" id="folderGrid"></div>
 </div>
 
-<!-- UPLOAD (admin only) -->
-<section class="upload-section" id="upload">
-  <div class="section-label" style="color:rgba(255,255,255,0.45);">Add to Portfolio</div>
-  <h2 class="section-title">Upload Your Work</h2>
-  <p style="color:rgba(255,255,255,0.55); margin-bottom:2rem; max-width:520px;">Add graphic designs, photographs, or videos directly to your portfolio.</p>
-  <div class="category-btns">
-    <button class="cat-btn" onclick="setCategory('design',this)">Graphic Design</button>
-    <button class="cat-btn" onclick="setCategory('photo',this)">Photography</button>
-    <button class="cat-btn" onclick="setCategory('video',this)">Video</button>
-  </div>
-  <div class="cat-note" id="catNote"></div>
-  <div class="upload-zone" id="dropZone">
-    <input type="file" id="fileInput" multiple accept="image/*,video/*">
-    <div class="upload-icon">&#8679;</div>
-    <h3>Drop files here or click to browse</h3>
-    <p>Supports <strong>images</strong> (JPG, PNG, GIF, WebP) and <strong>videos</strong> (MP4, MOV, WebM).<br>Select a category above first.</p>
-  </div>
-  <div class="upload-progress" id="uploadProgress">
-    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-    <p class="upload-status" id="uploadStatus">Uploading...</p>
-  </div>
-</section>
 
 <!-- CONTACT -->
 <section class="contact" id="contact">
@@ -213,19 +190,6 @@
 
 </main>
 
-<!-- LOGIN MODAL -->
-<div class="login-modal" id="loginModal">
-  <div class="login-box">
-    <h2>Admin Login</h2>
-    <p>Enter your password to access the upload panel.</p>
-    <input type="password" id="adminPassword" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()">
-    <div class="login-error" id="loginError">Incorrect password. Try again.</div>
-    <div class="login-actions">
-      <button class="btn" style="background:var(--sand);color:var(--ink);" onclick="closeLoginModal()">Cancel</button>
-      <button class="btn btn-primary" onclick="doLogin()">Login</button>
-    </div>
-  </div>
-</div>
 
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
